@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChainRelief | Decentralized Disaster Response</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        slate: { 850: '#151f32', 900: '#0f172a', 950: '#020617' },
+                        brand: { 500: '#6366f1', 600: '#4f46e5' }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #020617; color: #e2e8f0; }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-box {
+            transition: transform 0.3s ease;
+        }
+        .glass-card:hover .icon-box {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 bg-grid z-0 pointer-events-none"></div>
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-600/20 rounded-full blur-[120px] -z-10"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 animate-float">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-brand-400 text-xs font-semibold tracking-wide uppercase mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                Live on Ethereum Sepolia
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black text-white tracking-tight mb-6">
+                Chain<span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Relief</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 leading-relaxed">
+                A trustless, transparent disaster relief supply chain. <br class="hidden md:block" />
+                Select your role to interact with the protocol.
+            </p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl w-full">
+
+            <!-- 1. Admin -->
+            <a href="admin.html" class="glass-card rounded-3xl p-8 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-brand-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="icon-box w-14 h-14 rounded-2xl bg-brand-600 flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-brand-600/20">
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">Admin Console</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Deploy disaster contracts, whitelist merchants, and authorize final fund releases.
+                </p>
+                <span class="inline-flex items-center text-sm font-semibold text-brand-500 group-hover:translate-x-2 transition-transform">
+                    Launch Dashboard <i class="fa-solid fa-arrow-right ml-2"></i>
+                </span>
+            </a>
+
+            <!-- 2. Donor -->
+            <a href="donor.html" class="glass-card rounded-3xl p-8 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="icon-box w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Donor Portal</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Donate with confidence. Track your funds through the smart contract lifecycle.
+                </p>
+                <span class="inline-flex items-center text-sm font-semibold text-emerald-500 group-hover:translate-x-2 transition-transform">
+                    Donate Now <i class="fa-solid fa-arrow-right ml-2"></i>
+                </span>
+            </a>
+
+            <!-- 3. Rescue Team -->
+            <a href="team.html" class="glass-card rounded-3xl p-8 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="icon-box w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-indigo-600/20">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Rescue Team</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Order supplies anonymously on-chain. Manage procurement budgets in real-time.
+                </p>
+                <span class="inline-flex items-center text-sm font-semibold text-indigo-500 group-hover:translate-x-2 transition-transform">
+                    Access Procurement <i class="fa-solid fa-arrow-right ml-2"></i>
+                </span>
+            </a>
+
+            <!-- 4. NGO Verifier -->
+            <a href="ngo.html" class="glass-card rounded-3xl p-8 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="icon-box w-14 h-14 rounded-2xl bg-violet-600 flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-violet-600/20">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-violet-400 transition-colors">NGO Verifier</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Field inspection portal. Verify physical goods and sign transactions on-site.
+                </p>
+                <span class="inline-flex items-center text-sm font-semibold text-violet-500 group-hover:translate-x-2 transition-transform">
+                    Start Inspection <i class="fa-solid fa-arrow-right ml-2"></i>
+                </span>
+            </a>
+
+            <!-- 5. Merchant -->
+            <a href="merchant.html" class="glass-card rounded-3xl p-8 group relative overflow-hidden md:col-span-2 lg:col-span-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-sky-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <div class="icon-box w-14 h-14 rounded-2xl bg-sky-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-sky-600/20 shrink-0">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">Merchant Logistics Hub</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4 max-w-lg">
+                            Manage incoming orders, generate invoices, and submit immutable proofs of delivery (IPFS/Geo-tags) to claim payments.
+                        </p>
+                        <span class="inline-flex items-center text-sm font-semibold text-sky-500 group-hover:translate-x-2 transition-transform">
+                            Manage Logistics <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-20 text-center">
+            <p class="text-slate-500 text-sm">
+                Powered by <span class="text-slate-300 font-semibold">Ethereum</span> & <span class="text-slate-300 font-semibold">IPFS</span>
+            </p>
+        </div>
+
+    </main>
+</body>
+</html>
