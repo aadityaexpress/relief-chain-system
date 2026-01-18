@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate | ChainRelief</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        slate: { 850: '#151f32', 900: '#0f172a', 950: '#020617' },
+                        brand: { 500: '#6366f1', 600: '#4f46e5', accent: '#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #020617; color: #e2e8f0; }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .input-field {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            color: white;
+            transition: all 0.2s;
+        }
+        .input-field:focus {
+            border-color: #6366f1;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        /* Step Connector Line */
+        .step-connector {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #334155;
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-gradient-to-br from-brand-600 to-emerald-500 h-8 w-8 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-brand-500/20">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-white">ChainRelief <span class="text-slate-500 text-sm font-medium ml-1">DONOR</span></span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <p id="wallet" class="text-xs font-mono text-emerald-400 hidden md:block"></p>
+                    <button id="connectBtn" class="bg-white text-slate-900 hover:bg-slate-200 px-5 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-wallet"></i> <span>Connect Wallet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 sm:p-8 max-w-4xl mx-auto w-full space-y-8">
+        
+        <!-- Hero Section -->
+        <div class="text-center space-y-4 py-4">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+                Transparency First.
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                Your donation is locked in a smart contract and only released when aid delivery is verified.
+            </p>
+        </div>
+
+        <!-- Trust Architecture Visual -->
+        <div class="glass-panel p-8 rounded-2xl relative overflow-hidden">
+            <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-8 text-center">Smart Contract Workflow</h2>
+            
+            <div class="relative flex justify-between items-center max-w-3xl mx-auto text-center z-10">
+                <!-- Connector Line -->
+                <div class="step-connector hidden md:block"></div>
+                
+                <!-- Step 1 -->
+                <div class="relative z-10 px-2 bg-slate-900/0"> <!-- Transparent bg hack if needed, or rely on z-index -->
+                    <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center text-brand-500 text-xl mx-auto mb-3 shadow-[0_0_15px_rgba(99,102,241,0.3)] bg-slate-900">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <p class="text-sm font-bold text-white bg-slate-900/80 px-2 rounded">Locked</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 px-2">
+                    <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 text-xl mx-auto mb-3 bg-slate-900">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <p class="text-sm font-bold text-slate-400 bg-slate-900/80 px-2 rounded">Delivered</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 px-2">
+                    <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 text-xl mx-auto mb-3 bg-slate-900">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <p class="text-sm font-bold text-slate-400 bg-slate-900/80 px-2 rounded">Verified</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative z-10 px-2">
+                    <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 text-xl mx-auto mb-3 bg-slate-900">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <p class="text-sm font-bold text-slate-400 bg-slate-900/80 px-2 rounded">Paid</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donation Form Card -->
+        <div class="glass-panel p-8 rounded-2xl border-t border-brand-500/30">
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i class="fa-brands fa-ethereum text-brand-500"></i> Make a Donation
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- Select Disaster -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-2">Select Relief Operation</label>
+                    <div class="relative">
+                        <select id="disasterSelect" class="w-full px-4 py-3 rounded-xl input-field text-sm appearance-none cursor-pointer">
+                            <option value="">Connect wallet to load disasters...</option>
+                        </select>
+                        <div class="absolute right-4 top-3.5 text-slate-400 pointer-events-none">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amount Input -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-2">Donation Amount</label>
+                    <div class="relative">
+                        <input id="amount" type="number" step="0.01" placeholder="0.0" class="w-full px-4 py-3 rounded-xl input-field text-lg font-bold pl-4 pr-16">
+                        <span class="absolute right-4 top-4 text-slate-500 font-bold text-sm">ETH</span>
+                    </div>
+                </div>
+
+                <!-- Donate Button -->
+                <button id="donateBtn" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-600/20 transition-all transform hover:scale-[1.01] flex justify-center items-center gap-2">
+                    <span>Confirm Secure Donation</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Backend Logic Integration -->
+    <script type="module">
+        import {
+            initWeb3,
+            connectWallet,
+            donate,
+            getAllDisasters
+        } from "./app.js";
+
+        await initWeb3();
+
+        // Connect wallet
+        connectBtn.onclick = async () => {
+            const addr = await connectWallet();
+            // UI Updates for Connection
+            wallet.innerText = "Connected: " + addr.substring(0, 6) + "..." + addr.substring(38);
+            connectBtn.innerHTML = `<i class="fa-solid fa-link"></i> Connected`;
+            connectBtn.classList.add('bg-slate-200', 'cursor-default');
+            
+            await loadDisasters();
+        };
+
+        async function loadDisasters() {
+            const list = await getAllDisasters();
+            disasterSelect.innerHTML = "";
+
+            if (list.length === 0) {
+                disasterSelect.innerHTML = "<option>No active disasters found</option>";
+                return;
+            }
+
+            for (const d of list) {
+                const opt = document.createElement("option");
+                opt.value = d.id;
+                // Formatting for the stylish dropdown
+                opt.text = `#${d.id} - ${d.name} (Funds: ${ethers.utils.formatEther(d.balance)} ETH)`;
+                disasterSelect.appendChild(opt);
+            }
+        }
+
+        donateBtn.onclick = () => {
+            if (!disasterSelect.value) {
+                alert("Select a disaster");
+                return;
+            }
+            // Trigger animation on button (optional UI enhancement)
+            const originalText = donateBtn.innerHTML;
+            donateBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
+            
+            donate(disasterSelect.value, amount.value).then(() => {
+                donateBtn.innerHTML = originalText;
+            }).catch(() => {
+                donateBtn.innerHTML = originalText;
+            });
+        };
+    </script>
+</body>
+</html>
